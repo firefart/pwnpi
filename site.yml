@@ -15,10 +15,12 @@
   hosts: all
   remote_user: root
   roles:
+    - gps
     - kismet
 
 - name: Install and setup aircrack-ng
   hosts: all
   remote_user: root
   roles:
+    - gps
     - aircrack-ng

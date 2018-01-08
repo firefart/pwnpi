@@ -1,0 +1,16 @@
+---
+- name: Install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - gpsd
+    - gpsd-clients
+
+- gpsd /dev/ttyUSB0
+
+- name: Copy default configuration
+  copy: src=gpsd.default dest=/etc/default/gpsd
+
+# sudo dpkg-reconfigure gpsd
+
+# kismet config
+# gps=gpsd:host=localhost,port=2947,reconnect=true
