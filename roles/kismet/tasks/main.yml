@@ -1,0 +1,33 @@
+---
+- name: Install common packages
+  apt: name={{ item }} state=present
+  with_items:
+    - raspberrypi-kernel-headers
+    - build-essential
+    - libmicrohttpd-dev
+    - git
+    - libnl-3-dev
+    - libnl-genl-3-dev
+    - libcap-dev
+    - libpcap-dev
+    - libncurses5-dev
+    - libnm-dev
+    - libdw-dev
+    - libsqlite3-dev
+    - libfftw3-dev
+    - libhackrf-dev
+    - aclocal
+    - automake
+    - libtool-dev
+
+- name: checkout kismet
+  git:
+    repo: https://www.kismetwireless.net/git/kismet.git
+    dest: /opt/kismet
+    version: master
+    accept_hostkey: true
+
+# sudo make suidinstall
+# sudo usermod -a -G kismet pi
+# wget -O manuf "https://code.wireshark.org/review/gitweb?p=wireshark.git;a=blob_plain;f=manuf;hb=HEAD"
+# sudo cp manuf /etc/.

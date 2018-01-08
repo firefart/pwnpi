@@ -1,0 +1,54 @@
+---
+#- name: Remove useless packages
+#  apt: name={{ item }} state=absent autoremove=yes purge=yes
+#  with_items:
+#    - nfs-kernel-server
+#    - nfs-common
+#    - exim4
+#    - exim4-base
+#    - exim4-config
+#    - portmap
+
+- name: Install common packages
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - curl
+    - apt-transport-https
+    - bash-completion
+    - net-tools
+    - htop
+
+- name: Set up languages part 1
+  locale_gen: name={{ item }} state=present
+  with_items:
+    - en_US.UTF-8
+    - de_AT.UTF-8
+
+- name: Set up languages part 2
+  copy: src=locale dest=/etc/default/locale
+
+- name: Set hostname part 1
+  copy: content={{ server_name }} dest=/etc/hostname
+
+- name: SSH config
+  copy: src=sshd_config dest=/etc/ssh/sshd_config
+  notify: restart ssh
+
+- name: Disable motd when logging in
+  replace:
+    path: /etc/pam.d/sshd
+    regexp: '^(\s*session\s+optional\s+pam_motd\.so.*)$'
+    replace: '# \1'
+
+- name: root user SSH config
+  file: path=/root/.ssh state=directory owner=root group=root
+
+- name: authorized_keys
+  copy: src=authorized_keys dest=/root/.ssh/authorized_keys
+
+- name: pi user SSH config
+  file: path=/home/pi/.ssh state=directory owner=pi group=pi
+
+- name: authorized_keys
+  copy: src=authorized_keys dest=/home/pi/.ssh/authorized_keys

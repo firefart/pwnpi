@@ -1,0 +1,24 @@
+---
+- name: apply common configuration
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+
+- name: Install and setup wireless
+  hosts: all
+  remote_user: root
+  roles:
+    - rtl8812au
+
+- name: Install and setup kismet
+  hosts: all
+  remote_user: root
+  roles:
+    - kismet
+
+- name: Install and setup aircrack-ng
+  hosts: all
+  remote_user: root
+  roles:
+    - aircrack-ng
