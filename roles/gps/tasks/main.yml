@@ -5,10 +5,11 @@
     - gpsd
     - gpsd-clients
 
-- gpsd /dev/ttyUSB0
+- name: run gps daemon
+  command: gpsd {{ /dev/ttyUSB0 }}
 
 - name: Copy default configuration
-  copy: src=gpsd.default dest=/etc/default/gpsd
+  template: src=gpsd.default dest=/etc/default/gpsd
 
 # sudo dpkg-reconfigure gpsd
 

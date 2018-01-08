@@ -1,11 +1,12 @@
 ---
-- name: Install common packages
+- name: Install dependencies
   apt: name={{ item }} state=present
   with_items:
     - raspberrypi-kernel-headers
     - build-essential
     - libmicrohttpd-dev
     - git
+    - zlib1g-dev
     - libnl-3-dev
     - libnl-genl-3-dev
     - libcap-dev
@@ -23,11 +24,31 @@
 - name: checkout kismet
   git:
     repo: https://www.kismetwireless.net/git/kismet.git
-    dest: /opt/kismet
+    dest: "{{ kismet_dir }}"
     version: master
     accept_hostkey: true
 
-# sudo make suidinstall
-# sudo usermod -a -G kismet pi
-# wget -O manuf "https://code.wireshark.org/review/gitweb?p=wireshark.git;a=blob_plain;f=manuf;hb=HEAD"
-# sudo cp manuf /etc/.
+- name: configure kismet
+  command: ./configure
+  args:
+    chdir: "{{ kismet_dir }}"
+
+- name: compile kismet
+  make:
+    chdir: "{{ kismet_dir }}"
+
+- name: install kismet
+  make:
+    chdir: "{{ kismet_dir }}"
+    target: suidinstall
+
+- name: Adding existing user "{{ user }}"" to group sudo
+  user:
+    name: "{{ user }}"
+    groups: kismet
+    append: yes
+
+- name: Download MAC vendor file
+  get_url:
+    url: https://code.wireshark.org/review/gitweb?p=wireshark.git;a=blob_plain;f=manuf;hb=HEAD
+    dest: /etc/manuf

@@ -1,2 +1,6 @@
 ---
 server_name: "pwnpi"
+user: pi
+kismet_dir: /opt/kismet
+aircrack_dir: /opt/aircrack-ng
+gps_device: /dev/ttyUSB0

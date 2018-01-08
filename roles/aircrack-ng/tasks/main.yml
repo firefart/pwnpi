@@ -1,6 +1,44 @@
 ---
-- name: Install common packages
+- name: Install dependencies
   apt: name={{ item }} state=present
   with_items:
     - raspberrypi-kernel-headers
     - build-essential
+    - libssl-dev
+    - libgcrypt-dev
+    - libnl-3-dev
+    - libnl-genl-3-dev
+    - ethtool
+    - pkg-config
+    - libpcre3-dev
+    - libsqlite3-dev
+    - rfkill
+
+- name: checkout aircrack-ng
+  git:
+    repo: https://github.com/aircrack-ng/aircrack-ng.git
+    dest: "{{ aircrack_dir }}"
+    version: master
+    accept_hostkey: true
+
+- name: compile aircrack-ng
+  make:
+    chdir: "{{ aircrack_dir }}"
+    params:
+      sqlite: true
+      libnl: true
+      pcre: true
+
+- name: strip symbols
+  make:
+    chdir: "{{ aircrack_dir }}"
+    target: strip
+
+- name: install
+  make:
+    chdir: "{{ aircrack_dir }}"
+    target: install
+    params:
+      sqlite: true
+      libnl: true
+      pcre: true
