@@ -1,6 +1,7 @@
 ---
 server_name: "pwnpi"
 user: pi
+kernel_dir: /opt/rpi-linux-src
 kismet_dir: /opt/kismet
 aircrack_dir: /opt/aircrack-ng
 gps_device: /dev/ttyUSB0

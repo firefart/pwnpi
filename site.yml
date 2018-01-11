@@ -20,7 +20,7 @@
     - gps
   become: true
 
-    - name: Install and setup kismet
+- name: Install and setup kismet
   hosts: all
   remote_user: "{{ user }}"
   roles:

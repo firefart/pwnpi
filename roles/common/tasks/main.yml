@@ -55,5 +55,37 @@
 - name: authorized_keys
   copy: src=authorized_keys dest=/home/pi/.ssh/authorized_keys
 
+- name: Get current kernel version
+  command: "uname -r"
+  register: kernel_version
+
+- name: Current kernel version
+  debug:
+    msg: "{{ kernel_version.stdout }}"
+
+# TODO: https://raspberrypi.stackexchange.com/a/43639
+
+- name: Get kernel sources
+  git:
+    repo: https://github.com/raspberrypi/linux
+    update: yes
+    depth: 1
+    dest: "{{ kernel_dir }}"
+
+- name: Link kernel source
+  file:
+    src: "{{ kernel_dir }}"
+    dest: /usr/src/linux-{{ kernel_version.stdout }}
+    state: link
+
+- name: Configure kernel sources (menuconfig)
+  make:
+    chdir: "{{ kernel_dir }}"
+    target: "{{ item }}"
+  with_items:
+    - menuconfig
+    - prepare
+    - modules_prepare
+
 # pair bluetooth keyboard
 # https://medium.com/@elkentaro/snooppi-a-raspberry-pi-based-wifi-packet-capture-workhorse-part-1-n-for-snooppi-1fa14ed67e01
