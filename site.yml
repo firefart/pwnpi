@@ -1,26 +1,35 @@
 ---
 - name: apply common configuration
   hosts: all
-  remote_user: root
+  remote_user: "{{ user }}"
   roles:
     - common
+  become: true
 
 - name: Install and setup wireless
   hosts: all
-  remote_user: root
+  remote_user: "{{ user }}"
   roles:
     - rtl8812au
+  become: true
 
-- name: Install and setup kismet
+- name: Install and setup gps
   hosts: all
-  remote_user: root
+  remote_user: "{{ user }}"
   roles:
     - gps
+  become: true
+
+    - name: Install and setup kismet
+  hosts: all
+  remote_user: "{{ user }}"
+  roles:
     - kismet
+  become: true
 
 - name: Install and setup aircrack-ng
   hosts: all
-  remote_user: root
+  remote_user: "{{ user }}"
   roles:
-    - gps
     - aircrack-ng
+  become: true

@@ -6,7 +6,7 @@
     - gpsd-clients
 
 - name: run gps daemon
-  command: gpsd {{ /dev/ttyUSB0 }}
+  command: gpsd {{ gps_device }}
 
 - name: Copy default configuration
   template: src=gpsd.default dest=/etc/default/gpsd

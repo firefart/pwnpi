@@ -17,9 +17,9 @@
     - libsqlite3-dev
     - libfftw3-dev
     - libhackrf-dev
-    - aclocal
     - automake
-    - libtool-dev
+    - autotools-dev
+    - libtool
 
 - name: checkout kismet
   git:
@@ -42,7 +42,7 @@
     chdir: "{{ kismet_dir }}"
     target: suidinstall
 
-- name: Adding existing user "{{ user }}"" to group sudo
+- name: Adding existing user "{{ user }}" to group kismet
   user:
     name: "{{ user }}"
     groups: kismet

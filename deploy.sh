@@ -1,2 +1,2 @@
 #!/bin/sh
-ansible-playbook -u root site.yml "$@"
+ansible-playbook -u pi -b -i hosts site.yml "$@"

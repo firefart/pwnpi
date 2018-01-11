@@ -18,6 +18,8 @@
     - bash-completion
     - net-tools
     - htop
+    - bluetooth
+    - bluez
 
 - name: Set up languages part 1
   locale_gen: name={{ item }} state=present
@@ -52,3 +54,6 @@
 
 - name: authorized_keys
   copy: src=authorized_keys dest=/home/pi/.ssh/authorized_keys
+
+# pair bluetooth keyboard
+# https://medium.com/@elkentaro/snooppi-a-raspberry-pi-based-wifi-packet-capture-workhorse-part-1-n-for-snooppi-1fa14ed67e01
