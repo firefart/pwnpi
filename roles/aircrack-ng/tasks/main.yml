@@ -20,6 +20,7 @@
     dest: "{{ aircrack_dir }}"
     version: master
     accept_hostkey: true
+  register: aircrack
 
 - name: compile aircrack-ng
   make:
@@ -28,11 +29,13 @@
       sqlite: true
       libnl: true
       pcre: true
+  when: aircrack.changed
 
 - name: strip symbols
   make:
     chdir: "{{ aircrack_dir }}"
     target: strip
+  when: aircrack.changed
 
 - name: install
   make:
@@ -42,3 +45,4 @@
       sqlite: true
       libnl: true
       pcre: true
+  when: aircrack.changed

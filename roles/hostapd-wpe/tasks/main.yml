@@ -1,0 +1,28 @@
+---
+- name: Install dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - build-essential
+
+- name: Download hostapd
+  get_url:
+    url: https://w1.fi/releases/hostapd-2.6.tar.gz
+    dest: /opt/
+
+- name: Create directory
+  file:
+    path: "{{ hostapd_dir }}"
+    state: directory
+
+- name: Extract hostapd
+  unarchive:
+    src: /opt/hostapd-2.6.tar.gz
+    dest: "{{ hostapd_dir }}"
+    remote_src: yes
+
+- name: checkout hostapd_wpe
+  git:
+    repo: https://github.com/OpenSecurityResearch/hostapd-wpe.git
+    dest: "{{ hostapd_wpe_dir }}"
+    accept_hostkey: true
+

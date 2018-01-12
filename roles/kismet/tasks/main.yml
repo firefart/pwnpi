@@ -27,20 +27,24 @@
     dest: "{{ kismet_dir }}"
     version: master
     accept_hostkey: true
+  register: kismet
 
 - name: configure kismet
   command: ./configure
   args:
     chdir: "{{ kismet_dir }}"
+  when: kismet.changed
 
 - name: compile kismet
   make:
     chdir: "{{ kismet_dir }}"
+  when: kismet.changed
 
 - name: install kismet
   make:
     chdir: "{{ kismet_dir }}"
     target: suidinstall
+  when: kismet.changed
 
 - name: Adding existing user "{{ user }}" to group kismet
   user:

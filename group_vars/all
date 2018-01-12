@@ -5,4 +5,6 @@ rtl8812_dir: /opt/rtl8812au
 kismet_dir: /opt/kismet
 aircrack_dir: /opt/aircrack-ng
 fruitywifi_dir: /opt/fruitywifi
+hostapd_dir: /opt/hostapd
+hostapd_wpe_dir: /opt/hostapd-wpe
 gps_device: /dev/ttyUSB0

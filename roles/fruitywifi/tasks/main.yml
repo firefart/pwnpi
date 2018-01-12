@@ -10,8 +10,8 @@
     - autoconf
     - uuid
     - uuid-dev
-    - php5-curl
-    - php5-cli
+    - php-curl
+    - php-cli
     - dos2unix
     - curl
     - sudo
@@ -28,13 +28,17 @@
     - wireless-tools
     - iw
     - nginx
-    - php5-fpm
+    - php-fpm
 
 - name: checkout FruityWifi
   git:
     repo: https://github.com/xtr4nge/FruityWifi.git
     dest: "{{ fruitywifi_dir }}"
     accept_hostkey: true
+
+- name: Create group
+  group:
+    name: fruitywifi
 
 - name: Create user
   user:
@@ -44,7 +48,5 @@
     system: yes
     home: /var/run/fruitywifi
     comment: FruityWifi
-    groups: inet
-    append: yes
 
 # https://raw.githubusercontent.com/xtr4nge/FruityWifi/master/install-FruityWiFi.sh

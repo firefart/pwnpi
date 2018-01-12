@@ -1,42 +1,13 @@
 ---
-- name: apply common configuration
+- name: Install Wifi Pwnage
   hosts: all
   remote_user: "{{ user }}"
   roles:
     - common
-  become: true
-
-- name: Install and setup wireless
-  hosts: all
-  remote_user: "{{ user }}"
-  roles:
     - rtl8812au
-  become: true
-
-- name: Install and setup gps
-  hosts: all
-  remote_user: "{{ user }}"
-  roles:
     - gps
-  become: true
-
-- name: Install and setup kismet
-  hosts: all
-  remote_user: "{{ user }}"
-  roles:
     - kismet
-  become: true
-
-- name: Install and setup aircrack-ng
-  hosts: all
-  remote_user: "{{ user }}"
-  roles:
     - aircrack-ng
-  become: true
-
-- name: Install and setup FruityWifi
-  hosts: all
-  remote_user: "{{ user }}"
-  roles:
     - fruitywifi
+    - hostapd-wpe
   become: true
