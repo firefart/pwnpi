@@ -1,7 +1,7 @@
 ---
 server_name: "pwnpi"
 user: pi
-rtl8812au_dir: /opt/rtl8812au
+rtl8812_dir: /opt/rtl8812au
 kismet_dir: /opt/kismet
 aircrack_dir: /opt/aircrack-ng
 gps_device: /dev/ttyUSB0
