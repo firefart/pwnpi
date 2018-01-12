@@ -9,14 +9,8 @@
   git:
     repo: https://github.com/aircrack-ng/rtl8812au.git
     dest: "{{ rtl8812_dir }}"
-    force: yes
     version: v4.3.21
     accept_hostkey: true
-
-- name: Make install scripts executable
-  file:
-    dest: "{{ rtl8812_dir }}/dkms-install.sh"
-    mode: a+x
 
 - name: install and compile driver
   command: "{{ rtl8812_dir }}/dkms-install.sh"
