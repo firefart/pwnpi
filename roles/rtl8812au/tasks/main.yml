@@ -8,12 +8,14 @@
 - name: checkout driver
   git:
     repo: https://github.com/aircrack-ng/rtl8812au.git
-    dest: /opt/rtl8812au
+    dest: "{{ rtl8812_dir }}"
     version: v4.3.21
     accept_hostkey: true
 
-# TODO: Update make file to SUBARCH=arm
+- name: install and compile driver
+  command: "{{ rtl8812_dir }}/dkms_install.sh"
 
-# sudo ./dkms-install.sh
-
-# sudo cp realtek-leds.conf /etc/modprobe.d/
+- name: copy LED configuration
+  copy:
+    src: "{{ rtl8812_dir }}/realtek-leds.conf"
+    dest: /etc/modprobe.d/realtek-leds.conf

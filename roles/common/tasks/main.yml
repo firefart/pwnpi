@@ -20,6 +20,8 @@
     - htop
     - bluetooth
     - bluez
+    - build-essential
+    - raspberrypi-kernel-headers
 
 - name: Set up languages part 1
   locale_gen: name={{ item }} state=present
@@ -32,6 +34,12 @@
 
 - name: Set hostname part 1
   copy: content={{ server_name }} dest=/etc/hostname
+
+- name: Set hostname part 2
+  replace:
+    path: /etc/hosts
+    regexp: '^(127.0.1.1\s+)\w+$'
+    replace: '\1{{ server_name }}'
 
 - name: SSH config
   copy: src=sshd_config dest=/etc/ssh/sshd_config
@@ -63,29 +71,11 @@
   debug:
     msg: "{{ kernel_version.stdout }}"
 
-# TODO: https://raspberrypi.stackexchange.com/a/43639
-
-- name: Get kernel sources
-  git:
-    repo: https://github.com/raspberrypi/linux
-    update: yes
-    depth: 1
-    dest: "{{ kernel_dir }}"
-
-- name: Link kernel source
+- name: Link kernel sources (fix arch/armv7l/Makefile error)
   file:
-    src: "{{ kernel_dir }}"
-    dest: /usr/src/linux-{{ kernel_version.stdout }}
+    src: /usr/src/linux-headers-{{ kernel_version.stdout }}/arch/arm
+    dest: /usr/src/linux-headers-{{ kernel_version.stdout }}/arch/armv7l
     state: link
-
-- name: Configure kernel sources (menuconfig)
-  make:
-    chdir: "{{ kernel_dir }}"
-    target: "{{ item }}"
-  with_items:
-    - menuconfig
-    - prepare
-    - modules_prepare
 
 # pair bluetooth keyboard
 # https://medium.com/@elkentaro/snooppi-a-raspberry-pi-based-wifi-packet-capture-workhorse-part-1-n-for-snooppi-1fa14ed67e01
