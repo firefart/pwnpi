@@ -21,6 +21,11 @@
     - build-essential
     - raspberrypi-kernel-headers
 
+- name: raspi main config
+  copy:
+    src: config.txt
+    dest: /boot/config.txt
+
 - name: Set up languages part 1
   locale_gen: name={{ item }} state=present
   with_items:
