@@ -3,26 +3,50 @@
   apt: name={{ item }} state=present
   with_items:
     - build-essential
+    - libssl-dev
+    - libnl-genl-3-dev
+    - libnl-3-dev
+    - libnl-genl-3-dev
+    - libssl1.0-dev
 
 - name: Download hostapd
   get_url:
     url: https://w1.fi/releases/hostapd-2.6.tar.gz
     dest: /opt/
+  register: download
 
 - name: Create directory
   file:
     path: "{{ hostapd_dir }}"
     state: directory
+  when: download.changed
 
 - name: Extract hostapd
   unarchive:
     src: /opt/hostapd-2.6.tar.gz
     dest: "{{ hostapd_dir }}"
     remote_src: yes
+  when: download.changed
 
 - name: checkout hostapd_wpe
   git:
     repo: https://github.com/OpenSecurityResearch/hostapd-wpe.git
     dest: "{{ hostapd_wpe_dir }}"
     accept_hostkey: true
+  when: download.changed
 
+- name: Apply patch
+  patch:
+    src: "{{ hostapd_wpe_dir }}/hostapd-wpe.patch"
+    basedir: "{{ hostapd_dir }}/hostapd-2.6"
+    remote_src: yes
+    strip: 1
+  when: download.changed
+
+- name: Make hostapd
+  make:
+    chdir: "{{ hostapd_dir }}/hostapd-2.6/hostapd"
+  when: download.changed
+
+- name: Create certs
+  command: "{{ hostapd_wpe_dir }}/certs/bootstrap"
