@@ -4,4 +4,5 @@ user: pi
 rtl8812_dir: /opt/rtl8812au
 kismet_dir: /opt/kismet
 aircrack_dir: /opt/aircrack-ng
+fruitywifi_dir: /opt/fruitywifi
 gps_device: /dev/ttyUSB0

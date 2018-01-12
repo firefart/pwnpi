@@ -33,3 +33,10 @@
   roles:
     - aircrack-ng
   become: true
+
+- name: Install and setup FruityWifi
+  hosts: all
+  remote_user: "{{ user }}"
+  roles:
+    - fruitywifi
+  become: true

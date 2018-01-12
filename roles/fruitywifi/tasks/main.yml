@@ -1,0 +1,50 @@
+---
+- name: Install dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - build-essential
+    - gettext
+    - make
+    - intltool
+    - automake
+    - autoconf
+    - uuid
+    - uuid-dev
+    - php5-curl
+    - php5-cli
+    - dos2unix
+    - curl
+    - sudo
+    - unzip
+    - lsb-release
+    - python-scapy
+    - tcpdump
+    - python-netifaces
+    - python-pip
+    - git
+    - dnsmasq
+    - hostapd
+    - libssl-dev
+    - wireless-tools
+    - iw
+    - nginx
+    - php5-fpm
+
+- name: checkout FruityWifi
+  git:
+    repo: https://github.com/xtr4nge/FruityWifi.git
+    dest: "{{ fruitywifi_dir }}"
+    accept_hostkey: true
+
+- name: Create user
+  user:
+    name: fruitywifi
+    group: fruitywifi
+    createhome: no
+    system: yes
+    home: /var/run/fruitywifi
+    comment: FruityWifi
+    groups: inet
+    append: yes
+
+# https://raw.githubusercontent.com/xtr4nge/FruityWifi/master/install-FruityWiFi.sh

@@ -1,13 +1,11 @@
 ---
-#- name: Remove useless packages
-#  apt: name={{ item }} state=absent autoremove=yes purge=yes
-#  with_items:
-#    - nfs-kernel-server
-#    - nfs-common
-#    - exim4
-#    - exim4-base
-#    - exim4-config
-#    - portmap
+- name: Remove useless packages
+  apt: name={{ item }} state=absent autoremove=yes purge=yes
+  with_items:
+    - minecraft-pi
+    - wolfram-engine
+    - sonic-pi
+    - pigpio
 
 - name: Install common packages
   apt: name={{ item }} state=present
