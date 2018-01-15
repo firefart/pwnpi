@@ -20,6 +20,7 @@
     - bluez
     - build-essential
     - raspberrypi-kernel-headers
+    - wavemon
 
 - name: raspi main config
   copy:
