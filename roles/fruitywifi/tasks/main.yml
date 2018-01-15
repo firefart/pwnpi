@@ -24,7 +24,7 @@
     - git
     - dnsmasq
     - hostapd
-    - libssl-dev
+    - libssl1.0-dev
     - wireless-tools
     - iw
     - nginx
