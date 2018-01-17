@@ -23,7 +23,7 @@ LogLevel VERBOSE
 # Authentication:
 AuthenticationMethods publickey
 LoginGraceTime 120
-PermitRootLogin without-password
+PermitRootLogin no
 StrictModes yes
 
 RSAAuthentication no

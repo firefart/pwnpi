@@ -55,12 +55,6 @@
     regexp: '^(\s*session\s+optional\s+pam_motd\.so.*)$'
     replace: '# \1'
 
-- name: root user SSH config
-  file: path=/root/.ssh state=directory owner=root group=root
-
-- name: authorized_keys
-  copy: src=authorized_keys dest=/root/.ssh/authorized_keys
-
 - name: pi user SSH config
   file: path=/home/pi/.ssh state=directory owner=pi group=pi
 

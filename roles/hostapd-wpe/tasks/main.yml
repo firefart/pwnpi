@@ -32,7 +32,7 @@
     repo: https://github.com/OpenSecurityResearch/hostapd-wpe.git
     dest: "{{ hostapd_wpe_dir }}"
     accept_hostkey: true
-  when: download.changed
+  register: wpe_clone
 
 - name: Apply patch
   patch:
@@ -40,12 +40,21 @@
     basedir: "{{ hostapd_dir }}/hostapd-2.6"
     remote_src: yes
     strip: 1
-  when: download.changed
+  when: download.changed or wpe_clone.changed
+
+- name: Copy config
+  copy:
+    src: config
+    dest: "{{ hostapd_dir }}/hostapd-2.6/hostapd/.config"
+  register: wpe_config
+
+- name: Clean hostapd
+  make:
+    chdir: "{{ hostapd_dir }}/hostapd-2.6/hostapd"
+    target: clean
+  when: download.changed or wpe_clone.changed or wpe_config.changed
 
 - name: Make hostapd
   make:
     chdir: "{{ hostapd_dir }}/hostapd-2.6/hostapd"
-  when: download.changed
-
-- name: Create certs
-  command: "{{ hostapd_wpe_dir }}/certs/bootstrap"
+  when: download.changed or wpe_clone.changed or wpe_config.changed
