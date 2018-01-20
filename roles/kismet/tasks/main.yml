@@ -26,6 +26,8 @@
     repo: https://www.kismetwireless.net/git/kismet.git
     dest: "{{ kismet_dir }}"
     version: master
+    depth: 1
+    force: true
     accept_hostkey: true
   register: kismet
 

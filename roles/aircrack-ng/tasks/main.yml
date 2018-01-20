@@ -20,6 +20,7 @@
     dest: "{{ aircrack_dir }}"
     version: master
     accept_hostkey: true
+    depth: 1
     force: true
   register: aircrack
 

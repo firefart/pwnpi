@@ -35,6 +35,8 @@
     repo: https://github.com/xtr4nge/FruityWifi.git
     dest: "{{ fruitywifi_dir }}"
     accept_hostkey: true
+    depth: 1
+    force: true
 
 - name: Create group
   group:

@@ -75,5 +75,10 @@
     dest: /usr/src/linux-headers-{{ kernel_version.stdout }}/arch/armv7l
     state: link
 
+- name: Persistent interface names
+  copy:
+    src: interface.rules
+    dest: /etc/udev/rules.d/99-interface.rules
+
 # pair bluetooth keyboard
 # https://medium.com/@elkentaro/snooppi-a-raspberry-pi-based-wifi-packet-capture-workhorse-part-1-n-for-snooppi-1fa14ed67e01

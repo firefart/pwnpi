@@ -32,6 +32,8 @@
     repo: https://github.com/OpenSecurityResearch/hostapd-wpe.git
     dest: "{{ hostapd_wpe_dir }}"
     accept_hostkey: true
+    depth: 1
+    force: true
   register: wpe_clone
 
 - name: Apply patch
