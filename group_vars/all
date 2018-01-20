@@ -8,3 +8,7 @@ fruitywifi_dir: /opt/fruitywifi
 hostapd_dir: /opt/hostapd
 hostapd_wpe_dir: /opt/hostapd-wpe
 gps_device: /dev/ttyUSB0
+hostapd_interface: 8814au
+wifis:
+  - { name: UPC-Wi Free, org: UPC, email: admin@upc.at }
+  - { name: eduroam, org: eduroam, email: eduroam@eduroam.org }

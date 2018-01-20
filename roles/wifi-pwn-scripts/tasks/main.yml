@@ -1,0 +1,51 @@
+---
+- name: Create pwnage directory
+  file:
+    path: /opt/wifi-pwn-scripts
+    state: directory
+
+- name: Create sub directories
+  file:
+    path: /opt/wifi-pwn-scripts/{{ item.name }}
+    state: directory
+  with_items: "{{ wifis }}"
+
+- name: Create cert sub directories 2
+  file:
+    path: /opt/wifi-pwn-scripts/{{ item.name }}/certs
+    state: directory
+  with_items: "{{ wifis }}"
+
+- name: Copy cert config
+  template:
+    src: "{{ item[1] }}"
+    dest: /opt/wifi-pwn-scripts/{{ item[0].name }}/certs/{{ item[1] | basename | regex_replace('\.j2','') }}
+  vars:
+    wifi: "{{ item[0] }}"
+  with_nested:
+    - "{{ wifis }}"
+    - [ "ca.cnf.j2", "server.cnf.j2"]
+
+- name: Copy additional cert files
+  copy:
+    src: "{{ item[1] }}"
+    dest: /opt/wifi-pwn-scripts/{{ item[0].name}}/certs/{{ item[1] }}
+  with_nested:
+    - "{{ wifis }}"
+    - [ "index.txt.attr", "Makefile", "xpextensions" ]
+
+- name: Copy configs
+  template:
+    src: "{{ item[1] }}"
+    dest: /opt/wifi-pwn-scripts/{{ item[0].name }}/{{ item[1] | basename | regex_replace('\.j2','') }}
+  vars:
+    wifi: "{{ item[0] }}"
+  with_nested:
+    - "{{ wifis }}"
+    - ["wifi.conf.j2", "start.sh.j2"]
+
+- name: Make start file executable
+  file:
+    dest: /opt/wifi-pwn-scripts/{{ item.name }}/start.sh
+    mode: a+x
+  with_items: "{{ wifis }}"
