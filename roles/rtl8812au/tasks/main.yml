@@ -4,6 +4,7 @@
   with_items:
     - raspberrypi-kernel-headers
     - build-essential
+    - dkms
 
 - name: checkout driver
   git:
